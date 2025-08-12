@@ -1,7 +1,1 @@
-import { NextRequest, NextResponse } from 'next/server';
-
-export type TrialBucket = 'A' | 'B';
-
-export function getTrialBucketFromCookies( cookieStore: { get(name: string): { value: string } | undefined } ): TrialBucket { const v = cookieStore.get('kc_trial')?.value; return v === 'A' || v === 'B' ? v : 'A'; }
-
-export function assignTrialIfMissing( req: NextRequest, res: NextResponse ): NextResponse { const exists = req.cookies.get('kc_trial'); if (!exists) { const bucket: TrialBucket = Math.random() < 0.5 ? 'A' : 'B'; res.cookies.set('kc_trial', bucket, { maxAge: 31536000, // 365日（秒） secure: process.env.NODE_ENV === 'production', sameSite: 'lax', httpOnly: false, path: '/', }); } return res; }
+ import { NextRequest, NextResponse } from 'next/server'; export type TrialBucket='A'|'B'; export function getTrialBucketFromCookies(cs:{get(n:string):{value:string}|undefined}):TrialBucket{const v=cs.get('kc_trial')?.value;return v==='A'||v==='B'?v:'A';} export function assignTrialIfMissing(req:NextRequest,res:NextResponse):NextResponse{const e=req.cookies.get('kc_trial');if(!e){const b:TrialBucket=Math.random()<0.5?'A':'B';res.cookies.set('kc_trial',b,{maxAge:31536000,secure:process.env.NODE_ENV==='production',sameSite:'lax',httpOnly:false,path:'/'});}return res;}
